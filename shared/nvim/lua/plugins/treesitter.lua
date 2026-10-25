@@ -19,6 +19,7 @@ return {
         "sql",
         "templ",
         "terraform",
+        "rust",
       },
       indent = { disable = { "ruby" } },
     },

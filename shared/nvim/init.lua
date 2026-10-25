@@ -4,6 +4,7 @@ vim.filetype.add({
     tf = "terraform",
     tfvars = "terraform",
     svelte = "svelte",
+    rs = "rust",
   },
 })
 
