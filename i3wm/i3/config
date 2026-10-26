@@ -1,4 +1,5 @@
 set $mod Mod4
+set $alt Mod1
 font pango:Hack 9
 floating_modifier $mod
 
@@ -64,6 +65,27 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
+set $ws13 "13"
+set $ws14 "14"
+
+# First Monitor
+workspace $ws1 output DP-2
+workspace $ws2 output DP-2
+workspace $ws3 output DP-2
+workspace $ws4 output DP-2
+workspace $ws5 output DP-2
+workspace $ws6 output DP-2
+workspace $ws7 output DP-2
+workspace $ws8 output DP-2
+workspace $ws9 output DP-2
+workspace $ws10 output DP-2
+# Second Monitor
+workspace $ws11 output HDMI-1
+workspace $ws12 output HDMI-1
+workspace $ws13 output HDMI-1
+workspace $ws14 output HDMI-1
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -76,6 +98,10 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
+bindsym $alt+1 workspace number $ws11
+bindsym $alt+2 workspace number $ws12
+bindsym $alt+3 workspace number $ws13
+bindsym $alt+4 workspace number $ws14
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -88,6 +114,10 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $alt+Shift+1 move container to workspace number $ws11
+bindsym $alt+Shift+2 move container to workspace number $ws12
+bindsym $alt+Shift+3 move container to workspace number $ws13
+bindsym $alt+Shift+4 move container to workspace number $ws14
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -120,7 +150,7 @@ bindsym $mod+r mode "resize"
 #
 ## Displays: DP-2 = 2560x1440@240 (primary), HDMI-1 = 1080p@75 in inverted portrait, left of primary
 ## (if the portrait image is upside down, swap --rotate right to --rotate left)
-exec --no-startup-id xrandr --output DP-2 --mode 2560x1440 --rate 239.97 --primary
+exec --no-startup-id xrandr --output DP-2 --mode 2560x1440 --rate 239.97 --primary --output HDMI-1 --mode 1920x1080 --rate 75 --right-of DP-2 --rotate right
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # class                 border  backgr. text    indicator child_border
@@ -167,6 +197,10 @@ for_window [class="mpv"] floating enable
 for_window [class="imv"] floating enable
 for_window [class="zenity"] floating enable
 for_window [class="cachyos-welcome"] floating enable
+for_window [class="^steam$"] floating enable
+for_window [class="^steam$" instance="^steamwebhelper$" title="^Steam$"] floating disable
+for_window [class="^firefox$" instance="^Navigator$" title="^Sign in - Google Accounts — Mozilla Firefox$"] floating enable
+for_window [title="Connection Manager"] floating enable
 
 
 ########################################################################
@@ -190,7 +224,7 @@ bindsym $mod+Shift+p exec gnome-calculator
 #bindsym ctrl+l exec "setxkbmap -layout us && sleep 0.1 && setxkbmap -option grp:caps_toggle 'us,ru' -option grp_led:caps && sleep 0.1 && i3lock --blur 5"
 
 ## This keybind will lock the screen. The lockscreen.
-bindsym alt+Shift+l exec "sleep 0.1 && i3lock --blur 5"
+bindsym $mod+Shift+m exec "sleep 0.1 && i3lock --blur 5"
 
 ########################################################################
 ########################################################################
@@ -206,15 +240,13 @@ bindsym alt+Shift+l exec "sleep 0.1 && i3lock --blur 5"
 
 #exec_always setxkbmap -option grp:caps_toggle "us,ru" -option "grp:caps_toggle,grp_led:caps"
 
-# Disable 2nd monitor
-exec --no-startup-id xrandr --output HDMI-1 --off
-
 exec feh --bg-fill ~/.config/i3/wallpaper.png
 
 exec --no-startup-id dunst
 exec --no-startup-id picom
 exec --no-startup-id redshift
 exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 exec_always mkfifo /tmp/xobpipe && tail -f /tmp/xobpipe | xob -t 2170 & disown
